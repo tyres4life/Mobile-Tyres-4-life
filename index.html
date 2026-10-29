@@ -43,7 +43,49 @@ footer{text-align:center;padding:25px;background:#050505}
 <p>Call Mobile Tyres 4 Life for 24/7 emergency tyre assistance.</p>
 <a class="btn" href="tel:+447542805680">CALL 07542 805680</a>
 </section>
-</main>
+<section id="booking" style="background:#f8bd00;color:#111;border-radius:16px;margin:20px;padding:24px">
+<h2 style="color:#111">BOOK MOBILE TYRE FITTING</h2>
+<p>24/7 Cardiff & surrounding areas. Share your location and send us your details on WhatsApp.</p>
+<form id="tyreBooking" style="display:grid;gap:12px">
+<input id="customerName" required placeholder="Your name" style="padding:14px;border-radius:8px;border:1px solid #555;font-size:16px">
+<input id="customerPhone" required type="tel" placeholder="Your phone number" style="padding:14px;border-radius:8px;border:1px solid #555;font-size:16px">
+<input id="vehicleReg" placeholder="Vehicle registration" style="padding:14px;border-radius:8px;border:1px solid #555;font-size:16px">
+<input id="tyreSize" placeholder="Tyre size (e.g. 205/55 R16)" style="padding:14px;border-radius:8px;border:1px solid #555;font-size:16px">
+<button type="button" id="locBtn" style="padding:15px;background:#111;color:#fff;border:0;border-radius:8px;font-size:17px">📍 Share My Current Location</button>
+<p id="locationStatus" style="font-size:14px;margin:0">Location not shared yet</p>
+<input id="manualLocation" placeholder="Or enter your address / road name" style="padding:14px;border-radius:8px;border:1px solid #555;font-size:16px">
+<textarea id="customerNotes" placeholder="What help do you need?" rows="3" style="padding:14px;border-radius:8px;border:1px solid #555;font-size:16px"></textarea>
+<button type="submit" style="padding:16px;background:#111;color:#fff;border:0;border-radius:8px;font-size:18px;font-weight:bold">SEND BOOKING REQUEST VIA WHATSAPP</button>
+</form>
+<p style="font-size:13px">Booking requests are subject to confirmation. Location is shared only with your permission.</p>
+</section>
+<script>
+let customerMapLink = "";
+document.getElementById("locBtn").addEventListener("click",function(){
+const status = document.getElementById("locationStatus");
+if(!navigator.geolocation){status.textContent="Location unavailable. Please enter your address.";return;}
+status.textContent="Getting your location...";
+navigator.geolocation.getCurrentPosition(function(pos){
+customerMapLink="https://www.google.com/maps?q="+pos.coords.latitude+","+pos.coords.longitude;
+status.textContent="✓ Location ready to send";
+},function(){
+status.textContent="Location not shared. Please enter your address instead.";
+},{enableHighAccuracy:true,timeout:15000});
+});
+document.getElementById("tyreBooking").addEventListener("submit",function(e){
+e.preventDefault();
+const location = customerMapLink || document.getElementById("manualLocation").value.trim();
+if(!location){alert("Please share your location or enter your address.");return;}
+const message="MOBILE TYRES 4 LIFE - BOOKING REQUEST\n"+
+"Name: "+document.getElementById("customerName").value+"\n"+
+"Phone: "+document.getElementById("customerPhone").value+"\n"+
+"Registration: "+document.getElementById("vehicleReg").value+"\n"+
+"Tyre size: "+document.getElementById("tyreSize").value+"\n"+
+"Location: "+location+"\n"+
+"Details: "+document.getElementById("customerNotes").value;
+window.location.href="https://wa.me/447542805680?text="+encodeURIComponent(message);
+});
+</script></main>
 <footer>Mobile Tyres 4 Life | Cardiff & Surrounding Areas<br>24/7 Emergency Service</footer>
 <section style="background:#1c1c1c;color:white;padding:30px 20px;text-align:center">
 <h2 style="color:#ffd21c">Our Mobile Tyre Fitting Work</h2>
